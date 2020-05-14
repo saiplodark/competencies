@@ -4,18 +4,18 @@ module.exports = {
     login: async(req, res) =>{
         const db = req.app.get('db')
         const {username, password} =  req.body
-        const foundUser = await db.users.select_user(username).catch(err => console.log(err))
-        if (!foundUser.length){
-            res.status(401).send("User does not exist")
+        const foundBuyer = await db.buyers.select_buyers(username).catch(err => console.log(err))
+        if (!foundBuyer.length){
+            res.status(401).send("Buyers not showing")
         }else{
-            const matchPasswords = await bcrypt.compare(password, foundUser[0].hashed_password).catch(err=>console.log(err))
+            const matchPasswords = await bcrypt.compare(password, foundBuyer[0].hashed_password).catch(err=>console.log(err))
             if(matchPasswords){
-                req.session.user = {
-                    username:foundUser[0].username,
-                    user_id: foundUser[0].user_id
+                req.session.buyer = {
+                    username:foundBuyer[0].username,
+                    buyer_id: foundBuyer[0].buyer_id
                 }
-                console.log(req.session.user)
-                res.status(200).send(req.session.user)
+                console.log(req.session.buyer)
+                res.status(200).send(req.session.buyer)
             }else{
                 res.status(401).send("Something is wrong")
             }
@@ -23,20 +23,20 @@ module.exports = {
     },
     register: async (req,res)=>{
         const db = req.app.get('db')
-        const {username, password, email} = req.body
-        const foundUser = await db.users.select_user(username).catch(err=>consolee.log(err))
-        if(foundUser.length){
-            res.status(409).send('User exists, try the different username')
+        const {username, password} = req.body
+        const foundBuyer = await db.buyers.select_buyers(username).catch(err=>consolee.log(err))
+        if(foundBuyer.length){
+            res.status(409).send('Buyer exists, but something went wrong')
         }else{
             const saltRounds =12
             const salt = await bcrypt.genSalt(saltRounds)
             const hashedPassword = await bcrypt.hash(password, salt)
-            const createUser = await db.users.add_users([username, email, hashedPassword])
-            req.session.user={
-                user_id:createUser[0].user_id,
-                username: createUser[0].username
+            const createBuyer = await db.buyers.add_buyers([username, hashedPassword])
+            req.session.buyer={
+                buyer_id:createBuyer[0].buyer_id,
+                username: createBuyer[0].username
             }
-            res.status(200).send(req.session.user)
+            res.status(200).send(req.session.buyer)
         }
         },
         signout:(req,res)=>{
@@ -44,7 +44,7 @@ module.exports = {
             res.sendStatus(200)
             console.log(req.session)
         },
-        userSession:(req,res)=>{
-            res.status(200).send(req.session.user)
+        buyerSession:(req,res)=>{
+            res.status(200).send(req.session.buyer)
         }
 }

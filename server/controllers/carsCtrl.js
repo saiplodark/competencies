@@ -2,9 +2,8 @@ module.exports={
     getCars: async(req,res)=>{
         try {
             const db =req.app.get('db')
-            const{user_id} = req.session.user
-            const {bank} = req.params
-            const cars = await db.cars.select_cars([user_id,bank])
+            const{buyer_id} = req.session.buyer
+            const cars = await db.cars.select_cars([user_id])
             res.status(200).send(cars)            
         } catch (error) {
             console.log('error getting cars')
@@ -14,9 +13,9 @@ module.exports={
     addCars: async(req,res)=>{
         try {
             const db = req.app.get('db')
-            const {name,bank, type, annual_fee,points,img} = req.body
-            const{user_id} = req.session.user
-            const cars = await db.cars.add_cars([name,bank,type,annual_fee,points,img,user_id])
+            const {make,model,price,mileage,img} = req.body
+            const{buyer_id} = req.session.buyer
+            const cars = await db.cars.add_cars([make,model,price,mileage,img,buyer_id])
             res.status(200).send(cars)
         } catch (error) {
             console.log('error adding cars')
@@ -37,9 +36,9 @@ module.exports={
     updateCars:async(req,res)=>{
         try {
             const db = req.app.get('db')
-            const{points} = req.query
+            const{price, mileage} = req.query
             const{id} = req.params
-            const cars = await db.cars.update_cars([id, points])
+            const cars = await db.cars.update_cars([id, price, mileage])
             res.status(200).send(cars)  
         } catch (error) {
             console.log('error updating cars')

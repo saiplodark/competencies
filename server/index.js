@@ -5,7 +5,7 @@ const massive = require('massive')
 const path = require('path')
 
 const { SERVER_PORT, CONNECTION_STRING, SESSION_SECRET } = process.env
-const {login, register, signout, userSession} = require('./controllers/authCtrl')
+const {login, register, signout, buyerSession} = require('./controllers/authCtrl')
 const{getCars, addCars, deleteCars,updateCars} = require('./controllers/carsCtrl')
 
 const app = express()
@@ -34,7 +34,7 @@ massive({
 app.post('/auth/register', register)
 app.post('/auth/login', login)
 app.get('/auth/signout', signout)
-app.get('/auth/user_session', userSession)
+app.get('/auth/buyer_session', buyerSession)
 
 //Cars//
 app.get('/api/Cars/', getCars)
