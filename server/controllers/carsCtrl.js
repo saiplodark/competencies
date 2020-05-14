@@ -1,14 +1,14 @@
 module.exports={
     getCars: async(req,res)=>{
-        try {
+        // try {
             const db =req.app.get('db')
             const{buyer_id} = req.session.buyer
-            const cars = await db.cars.select_cars([user_id])
+            const cars = await db.cars.select_cars([buyer_id])
             res.status(200).send(cars)            
-        } catch (error) {
-            console.log('error getting cars')
-            res.status(500).send(error)
-        }
+        // } catch (error) {
+        //     console.log('error getting cars')
+        //     res.status(500).send(error)
+        // }
     },
     addCars: async(req,res)=>{
         try {

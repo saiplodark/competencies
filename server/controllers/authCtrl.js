@@ -4,7 +4,7 @@ module.exports = {
     login: async(req, res) =>{
         const db = req.app.get('db')
         const {username, password} =  req.body
-        const foundBuyer = await db.buyers.select_buyers(username).catch(err => console.log(err))
+        const foundBuyer = await db.users.select_buyers(username).catch(err => console.log(err))
         if (!foundBuyer.length){
             res.status(401).send("Buyers not showing")
         }else{
@@ -24,14 +24,14 @@ module.exports = {
     register: async (req,res)=>{
         const db = req.app.get('db')
         const {username, password} = req.body
-        const foundBuyer = await db.buyers.select_buyers(username).catch(err=>consolee.log(err))
+        const foundBuyer = await db.users.select_buyers(username).catch(err=>consolee.log(err))
         if(foundBuyer.length){
             res.status(409).send('Buyer exists, but something went wrong')
         }else{
             const saltRounds =12
             const salt = await bcrypt.genSalt(saltRounds)
             const hashedPassword = await bcrypt.hash(password, salt)
-            const createBuyer = await db.buyers.add_buyers([username, hashedPassword])
+            const createBuyer = await db.users.add_buyers([username, hashedPassword])
             req.session.buyer={
                 buyer_id:createBuyer[0].buyer_id,
                 username: createBuyer[0].username
