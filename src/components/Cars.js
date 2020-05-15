@@ -46,7 +46,7 @@ class Cars extends Component{
     }
 
     updateCars=(id,price,mileage)=>{
-        axios.put(`/api/editCars/${id}?price=${price},mileage=${mileage}`)
+        axios.put(`/api/editCars/${id}?price=${price}&mileage=${mileage}`)
         .then(()=>this.getCars())
         .catch(err=>{
             console.log('edit failed')

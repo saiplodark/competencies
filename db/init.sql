@@ -6,13 +6,13 @@
  );
 
 
--- cards table
+-- cars table
 CREATE TABLE cars(
     car_id SERIAL PRIMARY KEY,
     make VARCHAR(50),
     model TEXT,
     price DECIMAL,
-    mileage FLOAT,
+    mileage FLOAT(24),
     img TEXT,
     buyer_id INT REFERENCES  buyers(buyer_id)
 );

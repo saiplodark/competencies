@@ -10,6 +10,8 @@ const{getCars, addCars, deleteCars,updateCars} = require('./controllers/carsCtrl
 
 const app = express()
 
+//static build forlder because npm i build, ../ is to go upper level
+//if use express in other thing then react, write in different way
 app.use( express.static( `${__dirname}/../build` ) );
 app.use(express.json())
 app.use(session({

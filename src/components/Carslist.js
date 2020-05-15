@@ -18,8 +18,8 @@ export default function Cars(props){
         <input name='mileage' placeholder='newmileage' onChange={(event)=>{
             newmileage(event.target.value)
         }}/>
-        <button onClick={()=>props.updateCar(car_id,price)}>Update price</button>
-        <button onClick={()=>props.updateCar(car_id,mileage)}>Update mileage</button>
+        <button onClick={()=>props.updateCar(car_id,price,mileage)}>Update</button>
+        {/* <button onClick={()=>props.updateCar(car_id,mileage)}>Update mileage</button> */}
         <button onClick={()=>props.deleteCar(car_id)}>Delete</button>
         </p>
         </div>
